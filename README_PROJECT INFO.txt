@@ -7,4 +7,4 @@ The code is under MIT license, which allows you to freely use this code with no 
 
 The art used for this project IS NOT MINE. Genewheel is the rightful author of the art pack. I have received official permission from him on using his work for this project.
 The original asset pack: https://genewheel.itch.io/16x16-dungeon-tileset
-o_lobster's itch.io page: https://o-lobster.itch.io/
+Genewheel's itch.io page: https://genewheel.itch.io/
