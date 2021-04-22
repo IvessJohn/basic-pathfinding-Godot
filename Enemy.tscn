@@ -7,6 +7,8 @@
 extents = Vector2( 7, 7 )
 
 [node name="Enemy" type="KinematicBody2D"]
+collision_layer = 4
+collision_mask = 7
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -19,3 +21,8 @@ shape = SubResource( 1 )
 
 [node name="Line2D" type="Line2D" parent="."]
 width = 2.0
+
+[node name="LineOfSight" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 70, 0 )
+collision_mask = 3
