@@ -1,0 +1,104 @@
+Aula 1:
+
+pro player movimentar:
+extends KinematicBody2D
+
+
+var movespeed = 500
+
+
+func _ready():
+	pass # Replace with function body.
+	
+func _physics_process(delta):
+	var motion = Vector2()
+
+	if Input.is_action_pressed("up"):
+		motion.y -= 1
+	if Input.is_action_pressed("down"):
+		motion.y += 1
+	if Input.is_action_pressed("right"):
+		motion.x += 1
+	if Input.is_action_pressed("left"):
+		motion.x -= 1
+		
+	motion = motion.normalized()
+	motion = move_and_slide(motion * movespeed)
+	look_at(get_global_mouse_position())
+	
+STATE MACHINE DO NPC 3 ESTADOS COM TROCA DE CORES
+
+extends KinematicBody2D
+
+
+enum {
+	IDLE,
+	ALERT,
+	ANGRY
+}
+
+var state = IDLE
+onready var player_body = get_node('../Player')
+
+func _process(delta):
+	#setting the state
+	var distance = self.global_position.distance_to(player_body.global_position)
+	if distance >300:
+		state = IDLE
+	elif distance < 300 and distance > 150:
+		state = ALERT
+	elif distance < 150:
+		state = ANGRY
+	
+	#state machine
+	match(state):
+		IDLE:
+			self.modulate = Color8(255,255,0,255)
+		ALERT:
+			self.modulate = Color8(255,155,0,255)
+		ANGRY:
+			self.modulate = Color8(255,0,0,255)
+	pass
+  
+  
+  aula 2
+  
+  extends KinematicBody2D
+
+enum {
+	IDLE,
+	NEW_DIRECTION,
+	MOVE
+}
+
+const SPEED = 100
+var state = IDLE
+var direction = Vector2.RIGHT
+
+func _ready():
+	randomize()
+
+func _process(delta):
+	match state:
+		IDLE:
+			pass
+			
+		NEW_DIRECTION:
+			direction = choose([Vector2.RIGHT, Vector2.UP, Vector2.LEFT, Vector2.DOWN])
+			state = choose([IDLE, MOVE])
+		MOVE:
+			move(delta)
+			
+func move(delta):
+	position += direction * SPEED * delta
+	
+func choose(array):
+	array.shuffle()
+	return array.front()
+	
+
+
+func _on_Timer_timeout():
+	$Timer.wait_time = choose([0.5,1,1.5])
+	state = choose([IDLE, NEW_DIRECTION, MOVE])
+
